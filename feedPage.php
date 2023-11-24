@@ -1,58 +1,71 @@
-<?php    
+<?php
 include("config.php");
 include("header.php");
+include("deleteFeedBack.php");
 
-$sql = "SELECT * FROM  user_feedback";
+$sql = "SELECT * FROM user_feedback";
+$result = $connect->query($sql);
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove'])) {
+    $idToRemove = $_POST['row_id'];
+    deleteFeed($idToRemove);
 
+    header("Location: ".$_SERVER['PHP_SELF']);
+    exit();
+}
 
 ?>
 
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 20px; /* Adjust the margin as needed */
+    .feedback-container {
+        border: 2px ridge blue;
+        border-radius: 12px;
     }
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2f2f2;
-        
+    .feedback-container:hover {
+        background-color: blue;
+        color: white;
+        box-shadow: 10px 20px 30px 5px black;
+        transition:0.5s;
     }
 </style>
 
+<div>
+    <h1 class="text-center mt-5">Past Feedback</h1>
+</div>
 
-<table >
-    <tr>
-        <th>SN</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Feedback</th>
-    </tr>
-    <?php
-    $result = $connect->query($sql);
-    if($result->num_rows > 0){
-        
-        while($row = $result->fetch_assoc()){
-          echo "<tr>";
-          echo "<td>" . $id = $row['Id'] . "</td>";
-          echo "<td>" . $name = $row['UserName'] . "</td>";
-          echo "<td>". $email = $row['UserEmail'] . "</td>";
-          echo "<td>" . $feedback = $row['UserFeedBack'] . "</td>";
-          echo "</tr>";
-        };
-    
-    }else {
-        echo "<tr><td colspan='5'>No data found in the database.</td></tr>";
+<?php
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['Id'];
+        $name = $row['UserName'];
+        $email = $row['UserEmail'];
+        $feedback = $row['UserFeedBack'];
+        $feed_date = $row['FeedbackDate'];
+        ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form action="" method="POST">
+
+                        <div class="feedback-container text-center  container mb-5">
+                            <p class="fs-4 mt-5"><?php echo $feedback; ?></p>
+                            <p><?php echo " By ". $name; ?> </p>
+                            <p><?php echo "Date:  <code>" . $feed_date . "</code>" ; ?></p>
+                            <input type="hidden" name="row_id" value="<?php echo $id; ?>">
+                            <button type="submit" name="remove" class="btn mt-4 mb-4 btn-danger">Remove</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+        <?php
     }
-    ?>
-    </tr>
-</table>
+} else {
+    echo " feedback is empty";
+}
+?>
 
-<?php include("footer.php");
+<?php include("footer.php"); ?>

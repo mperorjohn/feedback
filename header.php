@@ -24,7 +24,7 @@
 <body>
 <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="index.php">
             <img src="https://cdn.iconscout.com/icon/free/png-512/free-feedback-chat-comment-discussion-message-complaint-bubble-6-5637.png?f=webp&w=256" alt="Logo" width="30" height="30" class="d-inline-flex align-text-top centered-image">
             Feed back <span class="lead">MperorJohn</span>
           </a>
