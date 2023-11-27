@@ -42,6 +42,7 @@ if ($result->num_rows > 0) {
         $email = $row['UserEmail'];
         $feedback = $row['UserFeedBack'];
         $feed_date = $row['FeedbackDate'];
+        $feed_time  = $row['FeedBackTIme'];
         ?>
         <div class="container">
             <div class="row">
@@ -51,8 +52,10 @@ if ($result->num_rows > 0) {
 
                         <div class="feedback-container text-center  container mb-5">
                             <p class="fs-4 mt-5"><?php echo $feedback; ?></p>
-                            <p><?php echo " By ". $name; ?> </p>
+                            <p><?php echo " By: ". $name; ?> </p>
                             <p><?php echo "Date:  <code>" . $feed_date . "</code>" ; ?></p>
+                            <p><?php echo "Time:  <code>" . $feed_time . "</code>" ; ?></p>
+
                             <input type="hidden" name="row_id" value="<?php echo $id; ?>">
                             <button type="submit" name="remove" class="btn mt-4 mb-4 btn-danger">Remove</button>
                         </div>
